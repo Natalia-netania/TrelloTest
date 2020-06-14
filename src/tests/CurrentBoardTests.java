@@ -20,7 +20,7 @@ public class CurrentBoardTests {
         Thread.sleep(1000);
             //--- Press log In menu button
         driver.findElement(By.linkText("Log In")).click();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
         //----Enter login value and click 'Log in' button ----
         driver.findElement(By.id("user")).sendKeys("serg_ya@yahoo.com");
@@ -50,11 +50,14 @@ public class CurrentBoardTests {
     }
     @Test
     public void createNewCard() throws InterruptedException {
-        driver.findElement(By.xpath("//body//div[@class='content-all-boards']//div//div[@class='boards-page-board-section mod-no-sidebar']//li[1]")).click();
+        driver.findElement(By.xpath("//body/div[@id='trello-root']/div[@id='chrome-container']/div[@class='BfrybzRYI4wt4w']/div[@id='surface']/main[@id='popover-boundary']/div[@id='content']/div[@class='member-boards-view']/div[@class='js-boards-page']/div[@class='js-react-root']/div/div[@class='home-container']/div[@class='home-sticky-container']/div[@class='all-boards']/div/div[@class='content-all-boards']/div[@class='boards-page-board-section mod-no-sidebar']/div/ul[@class='boards-page-board-section-list']/li[1]")).click();
         Thread.sleep(5000);
         driver.findElement(By.xpath("//span[@class='js-add-a-card']")).click();
         Thread.sleep(5000);
-
+        driver.findElement(By.xpath("//textarea[@placeholder='Ввести заголовок для этой карточки']")).sendKeys("Card1");
+        Thread.sleep(6000);
+        driver.findElement(By.xpath("//input[@class='primary confirm mod-compact js-add-card']")).click();
+        Thread.sleep(5000);
     }
 
     @AfterMethod

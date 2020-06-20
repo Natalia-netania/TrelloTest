@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,9 +33,10 @@ public class LoginTests {
             Thread.sleep(1000);
             WebElement enterButton = driver.findElement(By.id("login-submit"));
             enterButton.click();
-            Thread.sleep(30000);
+            Thread.sleep(25000);
             WebElement boardButton = driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/span[2]"));
             System.out.println(boardButton.getText());
+            Assert.assertEquals("Доски",boardButton.getText(),"Text on the boardIcon is not 'Доски'");
 
 
         }
@@ -52,6 +54,7 @@ public class LoginTests {
             Thread.sleep(3000);
             WebElement mist1Button = driver.findElement(By.cssSelector("#error>p"));
             System.out.println("Error message: " + mist1Button.getText());
+            Assert.assertEquals(mist1Button.getText(), "There isn't an account for this email","Error message is not correct");
         }
 
         @Test
@@ -71,6 +74,8 @@ public class LoginTests {
             Thread.sleep(3000);
             WebElement mistButton = driver.findElement(By.id("login-error"));
             System.out.println("Error message: " + mistButton.getText());
+            Assert.assertTrue(mistButton.getText().contains("Incorrect email address and / or password."),
+                    "There is no error message or the text of the message is not correct");
         }
         @AfterMethod
         public void tearDown(){

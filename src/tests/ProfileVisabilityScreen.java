@@ -14,29 +14,28 @@ import java.util.Objects;
 public class ProfileVisabilityScreen extends TestBase{
 
     @BeforeMethod
-    public void initTests() throws InterruptedException {
+    public void initTests() {
         //--- Press log In menu button
         driver.findElement(By.linkText("Log In")).click();
-        Thread.sleep(2000);
+        waitUntilElemetIsClickable(By.id("login"),20);
 
         //----Enter login value and click 'Log in' button ----
         driver.findElement(By.id("user")).sendKeys(LOGIN);
-        Thread.sleep(1000);
+        waitUntilAttributeValuesIs(By.id("login"),"value","Log in with Atlassian",10);
         driver.findElement(By.id("login")).click();
-        Thread.sleep(1000);
+        waitUntilElemetIsClickable(By.id("login-submit"),15);
 
         //---- Enter password value and click 'Log in' button
         driver.findElement(By.id("password")).sendKeys(PASSWORD);
         driver.findElement(By.id("login-submit")).click();
-        Thread.sleep(10000);
+        waitUntilElemetIsClickable(By.xpath("//button[@data-test-id='header-boards-menu-button']/span[2]"),40);
         WebElement menuButton = driver.findElement(By.xpath("//button[@data-test-id='header-member-menu-button']"));
         menuButton.click();
-        Thread.sleep(5000);
         driver.findElement(By.xpath("//a[@data-test-id='header-member-menu-profile']")).click();
-        Thread.sleep(2000);
     }
+
     @Test
-    public void comparisonLabelTextVerification() throws InterruptedException {
+    public void comparisonLabelTextVerification() {
 
         WebElement menuButton = driver.findElement(By.xpath("//button[@data-test-id='header-member-menu-button']"));
         System.out.println(driver.findElement(By.xpath("//span[@class='_24AWINHReYjNBf'][contains(text(),'N')]")).getText());
@@ -51,10 +50,10 @@ public class ProfileVisabilityScreen extends TestBase{
     }
 
     @Test
-    public void userNameVerification() throws InterruptedException {
-
+    public void userNameVerification() {
+        waitUntilElemetIsClickable(By.xpath("//a[@class='tabbed-pane-nav-item-button js-member-activity']"),50);
         WebElement userName = driver.findElement(By.xpath("//span[@class='YGN7y_VVuqFYYB']"));
-        //System.out.println(userName.getText());
+        System.out.println(userName.getText());
         WebElement userNamePub = driver.findElement(By.xpath("//input[@name='username']"));
         System.out.println(userNamePub.getText());
         if (
@@ -66,9 +65,4 @@ public class ProfileVisabilityScreen extends TestBase{
         Assert.assertEquals(userName.getText(),"@natalia46615563","Error: User names do not match");
     }
 
-
-    @AfterMethod
-    public void tearDown(){
-        driver.quit();
-    }
 }

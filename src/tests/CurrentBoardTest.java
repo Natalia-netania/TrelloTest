@@ -11,21 +11,21 @@ import java.util.List;
 public class CurrentBoardTest extends TestBase{
 
     @BeforeMethod
-    public void initTests() throws InterruptedException {
+    public void initTests()  {
         //--- Press log In menu button
         driver.findElement(By.linkText("Log In")).click();
-        Thread.sleep(2000);
+        waitUntilElemetIsClickable(By.id("login"),20);
 
         //----Enter login value and click 'Log in' button ----
         driver.findElement(By.id("user")).sendKeys(LOGIN);
-        Thread.sleep(1000);
+        waitUntilAttributeValuesIs(By.id("login"),"value","Log in with Atlassian",10);
         driver.findElement(By.id("login")).click();
-        Thread.sleep(1000);
+        waitUntilElemetIsClickable(By.id("login-submit"),15);
 
         //---- Enter password value and click 'Log in' button
         driver.findElement(By.id("password")).sendKeys(PASSWORD);
         driver.findElement(By.id("login-submit")).click();
-        Thread.sleep(10000);
+        waitUntilElemetIsClickable(By.xpath("//button[@data-test-id='header-boards-menu-button']/span[2]"),40);
         System.out.println(driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/span[2]")).getText());
 
         /* --- Open 'QA Haifa56' */
@@ -33,11 +33,12 @@ public class CurrentBoardTest extends TestBase{
         WebElement ourBoard = driver
                 .findElement(By.xpath(boardLocator(BOARD_TITLE)));
         ourBoard.click();
-        Thread.sleep(8000);
+        waitUntilElemetIsVisible(By.xpath("span[contains(text(),'QA Haifa56')]"),10);
+        waitUntilElemetIsClickable(By.xpath("//span[@class='placeholder'])"),10);
     }
 
     @Test
-    public void createNewList() throws InterruptedException {
+    public void createNewList() {
         //--- Add new list---
         List<WebElement> listLists = driver.
                 findElements(By.xpath("//div[@class = 'list js-list-content']"));
@@ -45,23 +46,24 @@ public class CurrentBoardTest extends TestBase{
         System.out.println("Lists before adding: " + beforeAdding);
         WebElement addListOption = driver.findElement(By.xpath("//span[@class='placeholder']"));
         addListOption.click();
+        waitUntilElemetIsVisible(By.xpath("//input[@placeholder='Ввести заголовок списка']"),10);
         WebElement addTitleField = driver.findElement(By.xpath("//input[@placeholder='Ввести заголовок списка']"));
 
         //----Add title of the list
+
         addTitleField.click();
         addTitleField.sendKeys("Test");
-        Thread.sleep(2000);
+       waitUntilElemetIsClickable(By.xpath("//input[@type='submit']"),10);
 
         //----Submit of adding list ----
         WebElement addListButton = driver.findElement(By.xpath("//input[@type='submit']"));
         addListButton.click();
-        Thread.sleep(2000);
 
         //--- Cancel from edit mode ----
         WebElement cancelEdit = driver
                 .findElement(By.xpath("//a[@class='icon-lg icon-close dark-hover js-cancel-edit']"));
         cancelEdit.click();
-        Thread.sleep(2000);
+
         //--- Receive new list of Lists---
         listLists = driver.findElements(By.xpath("//div[@class = 'list js-list-content']"));
         int afterAdding = listLists.size();
@@ -72,43 +74,40 @@ public class CurrentBoardTest extends TestBase{
     }
 
     @Test
-    public void createNewCard() throws InterruptedException {
+    public void createNewCard() {
         Boolean existsList = false;
-        System.out.println(driver.findElement(By
-                .xpath("//span[@class='placeholder']")).getText());
         if (driver.findElement(By
                 .xpath("//span[@class='placeholder']")).getText().contains("Добавьте еще одну колонку"))
         {
             existsList = true;
         }
-        System.out.println( existsList);
+        //System.out.println( existsList);
         if (!existsList) {
             //--- Add new list---
             System.out.println("Lists before adding: " + driver.
                     findElements(By.xpath("//div[@class = 'list js-list-content']")).size());
             WebElement addListOption = driver.findElement(By.xpath("//span[@class='placeholder']"));
             addListOption.click();
-            WebElement addTitleField = driver.findElement(By.xpath("//input[@placeholder='Ввести заголовок списка']"));
-
             //----Add title of the list
+            WebElement addTitleField = driver.findElement(By.xpath("//input[@placeholder='Ввести заголовок списка']"));
             addTitleField.click();
             addTitleField.sendKeys("Test");
-            Thread.sleep(2000);
 
+            waitUntilElemetIsClickable(By.xpath("//input[@type='submit']"),10);
             //----Submit of adding list ----
             WebElement addListButton = driver.findElement(By.xpath("//input[@type='submit']"));
             addListButton.click();
-            Thread.sleep(2000);
+
 
             //--- Cancel from edit mode ----
             WebElement cancelEdit = driver
                     .findElement(By.xpath("//a[@class='icon-lg icon-close dark-hover js-cancel-edit']"));
             cancelEdit.click();
-            Thread.sleep(2000);
+
             System.out.println("Lists after adding: " + driver.
                     findElements(By.xpath("//div[@class = 'list js-list-content']")).size());
         }
-        Thread.sleep(3000);
+
         //---Receive the quantity of cards ---
         int beforeAdding = driver.findElements(By.cssSelector("a.list-card")).size();
 
@@ -132,7 +131,7 @@ public class CurrentBoardTest extends TestBase{
         // ---- Cancel edit mode of the next card
         WebElement cancelEditCardButton = driver.findElement(By.cssSelector("div.card-composer a.icon-close"));
         cancelEditCardButton.click();
-        Thread.sleep(2000);
+
         //---Receive the quantity of cards ---
         int afterAdding = driver.findElements(By.cssSelector("a.list-card")).size();
         Assert.assertEquals(afterAdding,beforeAdding+1,

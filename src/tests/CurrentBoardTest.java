@@ -8,16 +8,33 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.List;
-public class CurrentBoardTest extends TestBase{
+import pages.BoardsPageHelper;
+import pages.CurrentBoardHelper;
+import pages.LoginPageHelper;
+
+public class CurrentBoardTest extends TestBase {
+
+    LoginPageHelper loginPage;
+    BoardsPageHelper boardsPage;
+    CurrentBoardHelper qaHaifa56Page;
 
     @BeforeMethod
-    public void initTests()  {
+    public void initTests() {
+
+        loginPage = new LoginPageHelper(driver);
+        boardsPage = new BoardsPageHelper(driver);
+        qaHaifa56Page = new CurrentBoardHelper(driver, BOARD_TITLE);
+        loginPage.openLoginPage();
+        loginPage.loginAsAtlassian(LOGIN, PASSWORD);
+        boardsPage.waitUntilPageIsLoaded();
+        qaHaifa56Page.openCurrentBoard();
+        qaHaifa56Page.waitUntilPageIsLoaded();
         //--- Press log In menu button
-        driver.findElement(By.linkText("Log In")).click();
-        waitUntilElemetIsClickable(By.id("login"),20);
+        //  driver.findElement(By.linkText("Log In")).click();
+        // waitUntilElemetIsClickable(By.id("login"),20);
 
         //----Enter login value and click 'Log in' button ----
-        driver.findElement(By.id("user")).sendKeys(LOGIN);
+      /*  driver.findElement(By.id("user")).sendKeys(LOGIN);
         waitUntilAttributeValuesIs(By.id("login"),"value","Log in with Atlassian",10);
         driver.findElement(By.id("login")).click();
         waitUntilElemetIsClickable(By.id("login-submit"),15);
@@ -29,18 +46,27 @@ public class CurrentBoardTest extends TestBase{
         System.out.println(driver.findElement(By.xpath("//button[@data-test-id='header-boards-menu-button']/span[2]")).getText());
 
         /* --- Open 'QA Haifa56' */
-        System.out.println(BOARD_TITLE);
+      /*  System.out.println(BOARD_TITLE);
         WebElement ourBoard = driver
                 .findElement(By.xpath(boardLocator(BOARD_TITLE)));
         ourBoard.click();
         waitUntilElemetIsVisible(By.xpath("span[contains(text(),'QA Haifa56')]"),10);
-        waitUntilElemetIsClickable(By.xpath("//span[@class='placeholder'])"),10);
+        waitUntilElemetIsClickable(By.xpath("//span[@class='placeholder'])"),10);*/
     }
 
     @Test
     public void createNewList() {
+
+        int beforeAdding = qaHaifa56Page.getListsQuantity();
+        System.out.println("Lists before adding: " + beforeAdding);
+        qaHaifa56Page.createNewList("Test");
+
+        int afterAdding = qaHaifa56Page.getListsQuantity();
+        Assert.assertEquals(afterAdding, beforeAdding + 1,
+                "The quantity of lists before adding new list is not the same as the quantity after adding");
+
         //--- Add new list---
-        List<WebElement> listLists = driver.
+        /*List<WebElement> listLists = driver.
                 findElements(By.xpath("//div[@class = 'list js-list-content']"));
         int beforeAdding = listLists.size();
         System.out.println("Lists before adding: " + beforeAdding);
@@ -71,11 +97,27 @@ public class CurrentBoardTest extends TestBase{
 
         Assert.assertEquals(afterAdding,beforeAdding+1,
                 "The quantity of lists before adding new list is not the same as the quantity after adding");
+                */
+
     }
 
     @Test
     public void createNewCard() {
-        Boolean existsList = false;
+
+        if (!qaHaifa56Page.existsList()) qaHaifa56Page.createNewList("Test");
+
+        int beforeAdding = qaHaifa56Page.receiveQuantityOfCards();
+        qaHaifa56Page.pressAddCardButton();
+        qaHaifa56Page.enterTextToCard("test card");
+        qaHaifa56Page.submitAddingCard();
+        qaHaifa56Page.cancelEditCardMode();
+
+        int afterAdding = qaHaifa56Page.receiveQuantityOfCards();
+        Assert.assertEquals(afterAdding, beforeAdding + 1,
+                "The quantity of cards before adding new card is not the same as the quantity after adding");
+
+
+       /* Boolean existsList = false;
         if (driver.findElement(By
                 .xpath("//span[@class='placeholder']")).getText().contains("Добавьте еще одну колонку"))
         {
@@ -148,5 +190,6 @@ public class CurrentBoardTest extends TestBase{
     public void tearDown(){
         driver.quit();
     }
-
+*/
+    }
 }

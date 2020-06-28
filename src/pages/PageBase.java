@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tests.TestBase;
@@ -24,6 +25,15 @@ public class PageBase  {
         }
     }
 
+    public void waitUntilElementIsClickable(WebElement element, int time) {
+        try {
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                    .elementToBeClickable(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void waitUntilElementIsClickable(By locator, int time) {
         try {
             new WebDriverWait(driver,time).until(ExpectedConditions
@@ -41,6 +51,14 @@ public class PageBase  {
         }
     }
 
+    public void waitUntilAttributeValuesIs(WebElement element, String atribute, String value,int time) {
+        try {
+            new WebDriverWait(driver,time).until(ExpectedConditions.attributeToBe(element, atribute, value ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void waitUntilElementIsVisible(By locator, int time) {
         try {
             new WebDriverWait(driver,time).until(ExpectedConditions
@@ -49,6 +67,16 @@ public class PageBase  {
             e.printStackTrace();
         }
     }
+
+    public void waitUntilElementIsVisible(WebElement element, int time) {
+        try {
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                   .visibilityOf(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void waitUntilElementIsNotVisible(By locator, int time) {
         try {
             new WebDriverWait(driver,time).until(ExpectedConditions

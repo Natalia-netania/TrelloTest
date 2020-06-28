@@ -3,10 +3,12 @@ package tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import pages.HomePageHelper;
 
 public class TestBase {
 
@@ -14,14 +16,15 @@ public class TestBase {
     public static final String BOARD_TITLE = "QA Haifa56";
     public static final String LOGIN = "serg_ya@yahoo.com";
     public static final String PASSWORD = "Leto2020zara";
-
+    HomePageHelper homePage;
 
     @BeforeMethod
     public void initTestsSuit() throws InterruptedException {
         //---- Enter to the application ---
         driver = new ChromeDriver();
         driver.get("https://trello.com/");
-        //Thread.sleep(8000);
+        homePage = PageFactory.initElements(driver,HomePageHelper.class);
+        homePage.waitUntilPageIsLoaded();
         waitUntilElemetIsClickable(By.linkText("Log In"),20);
 
     }

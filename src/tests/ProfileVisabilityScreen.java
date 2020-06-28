@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -24,9 +25,12 @@ public class ProfileVisabilityScreen extends TestBase{
     @BeforeMethod
     public void initTests() {
 
-        loginPage = new LoginPageHelper(driver);
-        boardsPage = new BoardsPageHelper(driver);
-        profilePage = new ProfileVisabilityScreenHelper(driver);
+        //loginPage = new LoginPageHelper(driver);
+       // boardsPage = new BoardsPageHelper(driver);
+        loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
+        boardsPage = PageFactory.initElements(driver,BoardsPageHelper.class);
+        //profilePage = new ProfileVisabilityScreenHelper(driver);
+        profilePage = PageFactory.initElements(driver,ProfileVisabilityScreenHelper.class);
         loginPage.openLoginPage();
         loginPage.loginAsAtlassian(LOGIN, PASSWORD);
         boardsPage.waitUntilPageIsLoaded();
@@ -36,7 +40,7 @@ public class ProfileVisabilityScreen extends TestBase{
     }
 
     @Test
-    public void comparisonLabelTextVerification() throws InterruptedException {
+    public void comparisonLabelTextVerification() {
         profilePage.waitUntilElementIsVisible();
         profilePage.getNameButton();
         if(
@@ -51,7 +55,7 @@ public class ProfileVisabilityScreen extends TestBase{
     @Test
     public void userNameVerification(){
 
-        profilePage.waitUntilElemetIsClickable1();
+        profilePage.waitUntilElementIsClickable1();
         profilePage.loadButtonUserName();
         profilePage.loadButtonUserNamePub();
         Assert.assertTrue(profilePage.getNameUserName().contains("natalia46615563")&&profilePage.getNameUserNamePub().equals("natalia46615563"));

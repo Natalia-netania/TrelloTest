@@ -31,7 +31,7 @@ public class ActivityMenuTests extends TestBase{
     @Test
     public void addingNewListEventInActivity(){
         String listTitle = "Activity new";
-        ///qaHaifa56Page.createNewList(listTitle);
+       qaHaifa56Page.createNewList(listTitle);
         upperMenuPage.openMenuPage();
         upperMenuPage.waitUntilPageIsLoaded();
         upperMenuPage.openActivityPage();

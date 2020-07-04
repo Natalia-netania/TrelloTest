@@ -1,36 +1,30 @@
-package tests;
+package tests1;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import java.util.List;
+
 import java.util.Objects;
-import pages.BoardsPageHelper;
-import pages.CurrentBoardHelper;
-import pages.LoginPageHelper;
-import pages.ProfileVisabilityScreenHelper;
+import pages1.BoardsPageHelper1;
+import pages1.LoginPageHelper1;
+import pages1.ProfileVisabilityScreenHelper1;
 
-public class ProfileVisabilityScreen extends TestBase{
+public class ProfileVisabilityScreen1 extends TestBase1 {
 
-    LoginPageHelper loginPage;
-    BoardsPageHelper boardsPage;
-    ProfileVisabilityScreenHelper profilePage;
+    LoginPageHelper1 loginPage;
+    BoardsPageHelper1 boardsPage;
+    ProfileVisabilityScreenHelper1 profilePage;
 
     @BeforeMethod
     public void initTests() {
 
         //loginPage = new LoginPageHelper(driver);
        // boardsPage = new BoardsPageHelper(driver);
-        loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
-        boardsPage = PageFactory.initElements(driver,BoardsPageHelper.class);
+        loginPage = PageFactory.initElements(driver, LoginPageHelper1.class);
+        boardsPage = PageFactory.initElements(driver, BoardsPageHelper1.class);
         //profilePage = new ProfileVisabilityScreenHelper(driver);
-        profilePage = PageFactory.initElements(driver,ProfileVisabilityScreenHelper.class);
+        profilePage = PageFactory.initElements(driver, ProfileVisabilityScreenHelper1.class);
         loginPage.openLoginPage();
         loginPage.loginAsAtlassian(LOGIN, PASSWORD);
         boardsPage.waitUntilPageIsLoaded();

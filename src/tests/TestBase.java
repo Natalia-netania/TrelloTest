@@ -16,7 +16,9 @@ public class TestBase {
     public static final String BOARD_TITLE = "QA Haifa56";
     public static final String LOGIN = "serg_ya@yahoo.com";
     public static final String PASSWORD = "Leto2020zara";
+    public static final String USERNAME ="Natalia";
     HomePageHelper homePage;
+
 
     @BeforeMethod
     public void initTestsSuit() throws InterruptedException {
@@ -25,7 +27,7 @@ public class TestBase {
         driver.get("https://trello.com/");
         homePage = PageFactory.initElements(driver,HomePageHelper.class);
         homePage.waitUntilPageIsLoaded();
-        waitUntilElemetIsClickable(By.linkText("Log In"),20);
+
 
     }
 
@@ -34,27 +36,47 @@ public class TestBase {
         driver.quit();
     }
 
-    public void waitUntilElemetIsVisible(By locator, int time) {
+    public void waitUntilElementIsClickable(By locator, int time) {
         try {
-            new WebDriverWait(driver,time).until(ExpectedConditions.visibilityOfElementLocated(locator));
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                    .elementToBeClickable(locator));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void waitUntilElemetIsClickable(By locator, int time) {
+    public void waitUntilElementIsVisible(By locator, int time) {
         try {
-            new WebDriverWait(driver,time).until(ExpectedConditions.elementToBeClickable(locator));
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                    .visibilityOfElementLocated(locator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void waitUntilAttributeValueIs(By locator, String attribute, String value, int time) {
+        try {
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                    .attributeToBe(locator,attribute,value));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void waitUntilElementIsNotVisible(By locator, int time) {
+        try {
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                    .invisibilityOfElementLocated(locator));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void waitUntilAttributeValuesIs(By locator, String atribute, String value,int time) {
+    public void waitUntilAllElementsAreVisible(By locator, int time) {
         try {
-            new WebDriverWait(driver,time).until(ExpectedConditions.attributeToBe(locator, atribute, value ));
+            new WebDriverWait(driver,time).until(ExpectedConditions
+                    .visibilityOfAllElementsLocatedBy(locator));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

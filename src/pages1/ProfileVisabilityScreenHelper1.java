@@ -1,13 +1,10 @@
-package pages;
+package pages1;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
-public class ProfileVisabilityScreenHelper extends PageBase{
+public class ProfileVisabilityScreenHelper1 extends PageBase1 {
 
     @FindBy(xpath = "//button[@data-test-id='header-boards-menu-button']/span[2]")
     WebElement headBoardMenuButton;
@@ -19,6 +16,7 @@ public class ProfileVisabilityScreenHelper extends PageBase{
     WebElement buttonMenu;
 
     @FindBy(xpath = "//span[@class='_24AWINHReYjNBf'][contains(text(),'N')]")
+    //@FindBy(xpath = ".//span")
     WebElement boardMenuButton;
 
     @FindBy(xpath = "//a[@class='tabbed-pane-nav-item-button js-member-activity']")
@@ -30,7 +28,7 @@ public class ProfileVisabilityScreenHelper extends PageBase{
     @FindBy(xpath = "//input[@name='username']")
     WebElement userNamePub;
 
-    public  ProfileVisabilityScreenHelper(WebDriver driver){
+    public ProfileVisabilityScreenHelper1(WebDriver driver){
 
         super(driver);
     }

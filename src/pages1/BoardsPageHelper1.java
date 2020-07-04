@@ -1,30 +1,29 @@
-package pages;
+package pages1;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
-public class BoardsPageHelper extends PageBase{
+public class BoardsPageHelper1 extends PageBase1 {
 
     @FindBy(xpath = "//button[@data-test-id='header-boards-menu-button']/span[2]")
-    WebElement boardsIcon;
+    WebElement boardIcon;
 
     @FindBy(xpath = "//button[@data-test-id = 'header-member-menu-button']")
     WebElement upperRight;
 
-    public BoardsPageHelper(WebDriver driver) {
+    public BoardsPageHelper1(WebDriver driver) {
+
         super(driver);
     }
 
+    public void waitUntilPageIsLoaded(){
 
-    public void waitUntilPageIsLoaded() {
-        waitUntilElementIsClickable(boardsIcon,40);
+        waitUntilElementIsClickable(boardIcon, 40);
         waitUntilElementIsClickable(upperRight,20);
     }
 
     public String getButtonBoardsText(){
-        return boardsIcon.getText();
+        return boardIcon.getText();
     }
 }

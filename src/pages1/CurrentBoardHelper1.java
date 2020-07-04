@@ -1,4 +1,4 @@
-package pages;
+package pages1;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class CurrentBoardHelper extends PageBase{
+public class CurrentBoardHelper1 extends PageBase1 {
 
     @FindBy(xpath = "//span[@class='placeholder']")
     WebElement addListOption;
@@ -16,7 +16,7 @@ public class CurrentBoardHelper extends PageBase{
     @FindBy(xpath = "//input[@placeholder='Ввести заголовок списка']")
     WebElement addTitleField;
 
-    @FindBy(xpath="//input[@type='submit']")
+    @FindBy(xpath = "//input[@type='submit']")
     WebElement addListButton;
 
     @FindBy(xpath = "//a[@class='icon-lg icon-close dark-hover js-cancel-edit']")
@@ -25,61 +25,67 @@ public class CurrentBoardHelper extends PageBase{
     @FindBy(xpath = "//div[@class = 'list js-list-content']")
     List<WebElement> listLists;
 
-
     private String boardName;
 
-    public CurrentBoardHelper(WebDriver driver, String boardName) {
+    public CurrentBoardHelper1(WebDriver driver, String boardName ) {
         super(driver);
         this.boardName = boardName;
         PageFactory.initElements(driver,this);
     }
     public void openCurrentBoard(){
         System.out.println("From openCurrentBoard: " + this.boardName);
-        WebElement ourBoard = driver
-                .findElement(By.xpath(boardLocator()));
+        WebElement ourBoard = driver.findElement(By.xpath(boardLocator()));
         ourBoard.click();
     }
 
     public void waitUntilPageIsLoaded(){
         waitUntilElementIsVisible(By.xpath(boardTitleLocator()),10);
-        waitUntilElementIsClickable(addListOption,10);
+        //waitUntilElemetIsClickable(By.xpath("//span[@class='placeholder']"),10);
+        waitUntilElementIsClickable(addListButton,10);
     }
 
-
-
     public int getListsQuantity(){
+       // List<WebElement> listLists = driver.
+         //       findElements(By.xpath("//div[@class = 'list js-list-content']"));
         return listLists.size();
     }
 
-    public void createNewList(String title){
+    public void createNewList(String title) {
         this.pressCreateNewListButton();
         this.enterTitle(title);
         this.submitAddingList();
         this.cancelFromEditMode();
     }
     public void pressCreateNewListButton() {
+        //WebElement addListOption = driver.findElement(By.xpath("//span[@class='placeholder']"));
         addListOption.click();
         waitUntilElementIsVisible(addTitleField,10);
+       // WebElement addTitleField = driver.findElement(By.xpath("//input[@placeholder='Enter list title...']"));
     }
 
     public void enterTitle(String title) {
+        //WebElement addTitleField = driver.findElement(By.xpath("//input[@placeholder='Ввести заголовок списка']"));
         addTitleField.click();
         addTitleField.sendKeys(title);
+        //waitUntilElemetIsClickable(By.xpath("//input[@type='submit']"),10);
         waitUntilElementIsClickable(addListButton,10);
     }
 
     public void submitAddingList() {
+        //WebElement addListButton = driver.findElement(By.xpath("//input[@type='submit']"));
         addListButton.click();
     }
 
     public void cancelFromEditMode() {
+        //WebElement cancelEdit = driver
+        //        .findElement(By.xpath("//a[@class='icon-lg icon-close dark-hover js-cancel-edit']"));
         cancelEditList.click();
     }
 
     public boolean existsList() {
         Boolean existsList = false;
         if (driver.findElement(By
-                .xpath("//span[@class='placeholder']")).getText().contains("another"))
+                .xpath("//span[@class='placeholder']")).getText().contains("Добавьте еще одну колонку"))
         {
             existsList = true;
         }
@@ -87,6 +93,7 @@ public class CurrentBoardHelper extends PageBase{
     }
 
     public int receiveQuantityOfCards() {
+
         return driver.findElements(By.cssSelector("a.list-card")).size();
     }
 
@@ -125,6 +132,7 @@ public class CurrentBoardHelper extends PageBase{
     }
 
     private String boardTitleLocator(){
+
         return "//span[contains(text(),'" + boardName + "')]";
     }
 }
